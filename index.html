@@ -750,72 +750,55 @@
 
     
         <script type="module">
-          // Import the functions you need from the SDKs you need
-          import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
-          import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-analytics.js";
-          // TODO: Add SDKs for Firebase products that you want to use
-          // https://firebase.google.com/docs/web/setup#available-libraries
-
-          // Your web app's Firebase configuration
-          // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-          const firebaseConfig = {
+            // Firebase Configuration
+        const firebaseConfig = {
             apiKey: "AIzaSyDnZi5tyI1bCyiuykgej0RawxWEyNJeafc",
             authDomain: "luvevirw.firebaseapp.com",
             projectId: "luvevirw",
             storageBucket: "luvevirw.firebasestorage.app",
             messagingSenderId: "166236779003",
-            appId: "1:166236779003:web:1558767b34ae2befc49b5e",
-            measurementId: "G-X434SJ1MW1"
-          };
+            appId: "1:166236779003:web:1558767b34ae2befc49b5e"
+        };
 
-          // Initialize Firebase
-          const app = initializeApp(firebaseConfig);
-          const analytics = getAnalytics(app);
+// Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-          const viewerCountElement = document.getElementById("viewerCount"); // Ensure this element exists in HTML
-          const viewerDocRef = doc(db, "live_viewers", "viewers");
+// Function to Update Live Viewers Count
+        async function updateLiveViewers() {
+            const viewersRef = db.collection("liveStream").doc("viewers");
 
-          // Function to increment viewer count when a user joins
-          async function increaseViewerCount() {
-             try {
-                 const docSnap = await getDoc(viewerDocRef);
-                 if (docSnap.exists()) {
-                     const currentCount = docSnap.data().count;
-                     await updateDoc(viewerDocRef, { count: currentCount + 1 });
-                 }
-             } catch (error) {
-                 console.error("Error increasing viewer count:", error);
-             }
-          }
+    // Run a Firestore transaction to increase the viewer count
+            await db.runTransaction(async (transaction) => {
+                const doc = await transaction.get(viewersRef);
+                if (!doc.exists) {
+                    transaction.set(viewersRef, { count: 1 });
+                } else {
+                    transaction.update(viewersRef, { count: doc.data().count + 1 });
+                }
+            });
+        }
 
-        // Function to decrement viewer count when a user leaves
-          async function decreaseViewerCount() {
-             try {
-                  const docSnap = await getDoc(viewerDocRef);
-                  if (docSnap.exists()) {
-                      const currentCount = docSnap.data().count;
-                      await updateDoc(viewerDocRef, { count: Math.max(0, currentCount - 1) });
-                  }
-              } catch (error) {
-                  console.error("Error decreasing viewer count:", error);
-              }
-          }
+// Function to Display Live Viewers Count
+        function showLiveViewers() {
+            const viewersRef = db.collection("liveStream").doc("viewers");
 
-        // Function to listen for real-time updates
-          function listenToViewerCount() {
-              onSnapshot(viewerDocRef, (docSnap) => {
-                  if (docSnap.exists()) {
-                      viewerCountElement.innerText = docSnap.data().count;
-                  }
-              });
-          }
+            viewersRef.onSnapshot((doc) => {
+                if (doc.exists) {
+                    document.getElementById("live-viewers").innerText = `Live Viewers: ${doc.data().count}`;
+                } else {
+                    document.getElementById("live-viewers").innerText = "Live Viewers: 0";
+                }
+            });
+        }
 
-        // 
+// Run functions when page loads
+        updateLiveViewers();
+        showLiveViewers();
 
-        // Start listening for real-time updates
-          listenToViewerCount();
+          
 
-      </script>
+        </script>
     
         
     <script>        
