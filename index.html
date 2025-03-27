@@ -750,60 +750,60 @@
 
     <script>
       
-// Import Firebase SDK (Add this at the beginning of the file)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import { getFirestore, doc, getDoc, onSnapshot, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+        // Import Firebase SDK (Add this at the beginning of the file)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, onSnapshot, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-// Firebase Configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyDnZi5tyI1bCyiuykgej0RawxWEyNJeafc",
-    authDomain: "AIzaSyDnZi5tyI1bCyiuykgej0RawxWEyNJeafc",
-    projectId: "luvevirw",
-    storageBucket: "luvevirw.firebasestorage.app",
-    messagingSenderId: "166236779003",
-    appId: "1:166236779003:web:1558767b34ae2befc49b5e"
-};
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDnZi5tyI1bCyiuykgej0RawxWEyNJeafc",
+            authDomain: "AIzaSyDnZi5tyI1bCyiuykgej0RawxWEyNJeafc",
+            projectId: "luvevirw",
+            storageBucket: "luvevirw.firebasestorage.app",
+            messagingSenderId: "166236779003",
+            appId: "1:166236779003:web:1558767b34ae2befc49b5e"
+        };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-// Reference to Firestore document
-const viewersRef = doc(db, "live_viewers", "viewers");
+        // Reference to Firestore document
+        const viewersRef = doc(db, "live_viewers", "viewers");
 
-// Function to update viewer count in real-time
-function updateViewerCount() {
-    onSnapshot(viewersRef, (docSnap) => {
-        if (docSnap.exists()) {
-            document.getElementById("live-viewers").innerText = "Live Viewers: " + docSnap.data().count;
-        } else {
-            console.log("No live viewer data found.");
+        // Function to update viewer count in real-time
+        function updateViewerCount() {
+            onSnapshot(viewersRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    document.getElementById("live-viewers").innerText = "Live Viewers: " + docSnap.data().count;
+                } else {
+                    console.log("No live viewer data found.");
+                }
+            });
         }
-    });
-}
 
-// Call function to start listening for changes
-updateViewerCount();
+        // Call function to start listening for changes
+        updateViewerCount();
 
-// Increase viewer count when user joins
-async function increaseViewers() {
-    await updateDoc(viewersRef, {
-        count: increment(1)
-    });
-}
+        // Increase viewer count when user joins
+        async function increaseViewers() {
+            await updateDoc(viewersRef, {
+                count: increment(1)
+            });
+        }
 
-// Decrease viewer count when user leaves
-async function decreaseViewers() {
-    await updateDoc(viewersRef, {
-        count: increment(-1)
-    });
-}
+        // Decrease viewer count when user leaves
+        async function decreaseViewers() {
+            await updateDoc(viewersRef, {
+                count: increment(-1)
+            });
+        }
 
-// Increase viewers when page loads
-window.addEventListener("load", increaseViewers);
+        // Increase viewers when page loads
+        window.addEventListener("load", increaseViewers);
 
-// Decrease viewers when user leaves
-window.addEventListener("beforeunload", decreaseViewers);
+        // Decrease viewers when user leaves
+        window.addEventListener("beforeunload", decreaseViewers);
 
         function toggleMenu() {
             const navLinks = document.getElementById('navLinks');
