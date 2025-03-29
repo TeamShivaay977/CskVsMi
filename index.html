@@ -11,7 +11,53 @@
     <center><script type="text/javascript" src="//widget.supercounters.com/ssl/online_i.js"></script><script type="text/javascript">sc_online_i(1711660,"ffffff","e61c1c");</script><br><noscript><a href="https://www.supercounters.com/">free online counter</a></noscript>
     </center>
 <!-- END: Powered by Supercounters.com -->
+    <div id="telegram-popup" class="popup">
+      <p>🔥 Join our Telegram for more updates! 🔥</p>
+      <a href="https://t.me/+9bpEHV_maho3NjI1" target="_blank">👉 Click Here to Join 👈</a>
+      <button onclick="closePopup()">Close</button>
+    </div>
 
+    <style>
+      .popup {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+      }
+      .popup a {
+        color: #00ffcc;
+        font-weight: bold;
+        text-decoration: none;
+      }
+    </style>
+
+    <script>
+      function showPopup() {
+      let popup = document.getElementById("telegram-popup");
+      popup.style.display = "block";
+    
+      setTimeout(() => {
+        popup.style.display = "none";
+      }, 5000); // Hide after 5 seconds
+    }
+ 
+      function closePopup() {
+       document.getElementById("telegram-popup").style.display = "none";
+      }
+
+  // Show popup every 10 minutes
+      setInterval(showPopup, 1 * 60 * 1000);
+
+  // Show immediately on page load (optional)
+      setTimeout(showPopup, 5000);
+  </script>
+    
     <style>
     
         :root {
