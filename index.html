@@ -39,12 +39,15 @@
 
     <script>
       function showPopup() {
+          if (document.fullscreenElement) {
+      document.exitFullscreen(); // Exit fullscreen first
+          }
       let popup = document.getElementById("telegram-popup");
       popup.style.display = "block";
     
       setTimeout(() => {
         popup.style.display = "none";
-      }, 5000); // Hide after 5 seconds
+      }, 10000); // Hide after 5 seconds
     }
  
       function closePopup() {
